@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Incoming;
 use App\Models\Item;
-use App\Models\Product;
 use Illuminate\Http\Request;
 
 class IncomingController extends Controller
@@ -36,7 +35,7 @@ class IncomingController extends Controller
         ]);
 
         // Tambahkan ke tabel items
-        $item = Item::create([
+        $item = \App\Models\Item::create([
             'name' => $incoming->item_name,
             'quantity' => $incoming->quantity,
             'description' => $incoming->description,
@@ -44,16 +43,16 @@ class IncomingController extends Controller
         ]);
 
         // 🔹 Jika tabel Products ada, tambahkan stok juga ke produk terkait
-        if (class_exists(Product::class)) {
-            $product = Product::where('name', $item->name)->first();
+        if (class_exists(\App\Models\Product::class)) {
+            $product = \App\Models\Product::where('name', $item->name)->first();
             if ($product) {
-                $product->quantity += $request->quantity;
+                $product->stock += $request->quantity;
                 $product->save();
             } else {
-                // Product::create([
+                // \App\Models\Product::create([
                 //     'name' => $item->name,
-                //     'quantity' => $item->quantity,
-                //     // 'category_id' => null,
+                //     'stock' => $item->quantity,
+                //     // 'category_id' => $item->i,
                 //     // 'price' => 0,
                 //     // 'description' => $item->description,
                 // ]);
@@ -71,32 +70,32 @@ class IncomingController extends Controller
     public function update(Request $request, Incoming $incoming)
     {
         $request->validate([
-            'item_name' => 'required|string|max:255',
+            'name' => 'required|string|max:255',
             'quantity' => 'required|integer|min:1',
             'description' => 'nullable|string',
         ]);
 
         $oldQuantity = $incoming->quantity;
-        $oldName = $incoming->item_name;
+        $oldName = $incoming->name;
 
         // Update incoming
-        $incoming->update($request->only(['item_name', 'quantity', 'description']));
+        $incoming->update($request->all());
 
         // Update stok di items
         $item = Item::where('name', $oldName)->first();
 
         if ($item) {
-            if ($oldName !== $request->item_name) {
+            if ($oldName !== $request->name) {
                 $item->quantity -= $oldQuantity;
                 $item->save();
 
-                $newItem = Item::where('name', $request->item_name)->first();
+                $newItem = Item::where('name', $request->name)->first();
                 if ($newItem) {
                     $newItem->quantity += $request->quantity;
                     $newItem->save();
                 } else {
                     $newItem = Item::create([
-                        'name' => $request->item_name,
+                        'name' => $request->name,
                         'quantity' => $request->quantity,
                         'description' => $request->description,
                         'incoming_id' => $incoming->id,
@@ -110,11 +109,11 @@ class IncomingController extends Controller
         }
 
         // 🔹 Sinkronkan juga ke tabel Product jika ada
-        if (class_exists(Product::class)) {
-            $product = Product::where('name', $request->item_name)->first();
+        if (class_exists(\App\Models\Product::class)) {
+            $product = \App\Models\Product::where('name', $request->name)->first();
             if ($product) {
                 $difference = $request->quantity - $oldQuantity;
-                $product->quantity += $difference;
+                $product->stock += $difference;
                 $product->save();
             }
         }
@@ -124,7 +123,7 @@ class IncomingController extends Controller
 
     public function destroy(Incoming $incoming)
     {
-        $item = Item::where('name', $incoming->item_name)->first();
+        $item = Item::where('name', $incoming->name)->first();
 
         if ($item) {
             $item->quantity -= $incoming->quantity;
@@ -135,12 +134,12 @@ class IncomingController extends Controller
             }
         }
 
-        // 🔹 Kurangi quantity produk juga jika ada
-        if (class_exists(Product::class)) {
-            $product = Product::where('name', $incoming->item_name)->first();
+        // 🔹 Kurangi stok produk juga jika ada
+        if (class_exists(\App\Models\Product::class)) {
+            $product = \App\Models\Product::where('name', $incoming->name)->first();
             if ($product) {
-                $product->quantity -= $incoming->quantity;
-                if ($product->quantity <= 0) {
+                $product->stock -= $incoming->quantity;
+                if ($product->stock <= 0) {
                     $product->delete();
                 } else {
                     $product->save();
