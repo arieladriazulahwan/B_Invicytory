@@ -21,46 +21,36 @@
 </div>
 @endif
 
-
-<h2 class="text-3xl font-bold mb-6 flex items-center justify-between">
+<h2 class="text-3xl font-bold mb-6 flex items-center justify-between text-blue-900">
     Pengaturan Aplikasi
-
-    {{-- Dark Mode Toggle --}}
-    <form action="{{ route('settings.toggleDarkMode') }}" method="POST">
-        @csrf
-        <button class="bg-gray-800 text-white px-4 py-2 rounded shadow hover:bg-black">
-            {{ auth()->user()->dark_mode ? 'Mode Terang' : 'Mode Gelap' }}
-        </button>
-    </form>
 </h2>
-
 
 <div class="grid md:grid-cols-2 gap-6">
 
     {{-- ===========================
         1. UPDATE PROFILE
     ============================ --}}
-    <div class="bg-white p-6 shadow rounded">
+    <div class="bg-blue-900 p-6 shadow rounded text-white">
         <h3 class="text-xl font-semibold mb-4">Profil Pengguna</h3>
 
         <form action="{{ route('settings.updateProfile') }}" method="POST" enctype="multipart/form-data" class="space-y-4">
             @csrf
 
             <div>
-                <label class="font-medium">Nama</label>
+                <label class="font-medium block mb-1">Nama</label>
                 <input type="text" name="name" value="{{ auth()->user()->name }}"
-                    class="w-full border p-2 rounded" required>
+                    class="w-full border border-gray-300 p-2 rounded text-blue-900" required>
             </div>
 
             <div>
-                <label class="font-medium">Email</label>
+                <label class="font-medium block mb-1">Email</label>
                 <input type="email" name="email" value="{{ auth()->user()->email }}"
-                    class="w-full border p-2 rounded" required>
+                    class="w-full border border-gray-300 p-2 rounded text-blue-900" required>
             </div>
 
             <div>
-                <label class="font-medium">Foto Profil</label>
-                <input type="file" name="profile_photo" class="w-full border p-2 rounded" accept="image/*">
+                <label class="font-medium block mb-1">Foto Profil</label>
+                <input type="file" name="profile_photo" class="w-full border border-gray-300 p-2 rounded text-blue-900" accept="image/*">
 
                 {{-- Preview --}}
                 @if (auth()->user()->profile_photo)
@@ -69,46 +59,44 @@
                 @endif
             </div>
 
-            <button class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+            {{-- Updated button color from blue-600 to cyan --}}
+            <button class="bg-cyan-500 text-white px-4 py-2 rounded hover:bg-cyan-600">
                 Update Profil
             </button>
         </form>
     </div>
 
-
-
     {{-- ===========================
         2. UPDATE PASSWORD
     ============================ --}}
-    <div class="bg-white p-6 shadow rounded">
+    <div class="bg-blue-900 p-6 shadow rounded text-white">
         <h3 class="text-xl font-semibold mb-4">Ganti Password</h3>
 
         <form action="{{ route('settings.updatePassword') }}" method="POST" class="space-y-4">
             @csrf
 
             <div>
-                <label class="font-medium">Password Baru</label>
-                <input type="password" name="new_password" class="w-full border p-2 rounded" required>
+                <label class="font-medium block mb-1">Password Baru</label>
+                <input type="password" name="new_password" class="w-full border border-gray-300 p-2 rounded text-blue-900" required>
             </div>
 
             <div>
-                <label class="font-medium">Konfirmasi Password Baru</label>
-                <input type="password" name="new_password_confirmation" class="w-full border p-2 rounded"
+                <label class="font-medium block mb-1">Konfirmasi Password Baru</label>
+                <input type="password" name="new_password_confirmation" class="w-full border border-gray-300 p-2 rounded text-blue-900"
                     required>
             </div>
 
-            <button class="bg-yellow-600 text-white px-4 py-2 rounded hover:bg-yellow-700">
+            {{-- Updated button color from yellow-600 to cyan --}}
+            <button class="bg-cyan-500 text-white px-4 py-2 rounded hover:bg-cyan-600">
                 Update Password
             </button>
         </form>
     </div>
 
-
-
     {{-- ===========================
         3. INFO SETTING GUDANG
     ============================ --}}
-    <div class="bg-white p-6 shadow rounded md:col-span-2">
+    <div class="bg-blue-900 p-6 shadow rounded md:col-span-2 text-white">
         <h3 class="text-xl font-semibold mb-4">Informasi Gudang</h3>
 
         @php
@@ -120,30 +108,30 @@
             @csrf
 
             <div>
-                <label class="font-medium">Nama Gudang</label>
+                <label class="font-medium block mb-1">Nama Gudang</label>
                 <input type="text" name="warehouse_name"
                     value="{{ $setting->warehouse_name ?? '' }}"
-                    class="w-full border p-2 rounded">
+                    class="w-full border border-gray-300 p-2 rounded text-blue-900">
             </div>
 
             <div>
-                <label class="font-medium">Alamat Gudang</label>
+                <label class="font-medium block mb-1">Alamat Gudang</label>
                 <input type="text" name="warehouse_address"
                     value="{{ $setting->warehouse_address ?? '' }}"
-                    class="w-full border p-2 rounded">
+                    class="w-full border border-gray-300 p-2 rounded text-blue-900">
             </div>
 
             <div>
-                <label class="font-medium">Telepon Gudang</label>
+                <label class="font-medium block mb-1">Telepon Gudang</label>
                 <input type="text" name="warehouse_phone"
                     value="{{ $setting->warehouse_phone ?? '' }}"
-                    class="w-full border p-2 rounded">
+                    class="w-full border border-gray-300 p-2 rounded text-blue-900">
             </div>
 
             <div class="col-span-3">
-                <label class="font-medium">Logo Gudang</label>
+                <label class="font-medium block mb-1">Logo Gudang</label>
                 <input type="file" name="warehouse_logo" accept="image/*"
-                    class="w-full border p-2 rounded">
+                    class="w-full border border-gray-300 p-2 rounded text-blue-900">
 
                 @if ($setting && $setting->warehouse_logo)
                     <img src="{{ asset('storage/logo/' . $setting->warehouse_logo) }}"
@@ -152,7 +140,8 @@
             </div>
 
             <div class="col-span-3">
-                <button class="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700">
+                {{-- Updated button color from green-600 to cyan --}}
+                <button class="bg-cyan-500 text-white px-6 py-2 rounded hover:bg-cyan-600 w-full">
                     Simpan Pengaturan Gudang
                 </button>
             </div>

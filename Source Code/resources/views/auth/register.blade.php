@@ -6,52 +6,56 @@
     <title>Register</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gradient-to-br from-blue-500 to-blue-800 min-h-screen flex items-center justify-center">
+<body class="bg-blue-900 min-h-screen flex items-center justify-center">
 
-    <div class="bg-white/10 backdrop-blur-md shadow-xl rounded-2xl p-8 w-full max-w-md border border-white/20">
-        <h2 class="text-3xl font-bold text-center text-white mb-6">Register</h2>
+    <!-- Updated background to solid navy blue and added relative positioning for card wrapper -->
+    <div class="relative w-full max-w-md">
+        <!-- Added circular avatar with user icon at top center -->
+        <div class="absolute -top-8 left-1/2 transform -translate-x-1/2 w-16 h-16 bg-blue-200 rounded-full flex items-center justify-center z-10">
+            <svg class="w-8 h-8 text-blue-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+            </svg>
+        </div>
 
-        <form action="/register" method="POST" class="space-y-5">
-            @csrf
+        <!-- Changed card to solid white background with shadow, removed backdrop blur -->
+        <div class="bg-white shadow-xl rounded-2xl p-8 w-full pt-12">
+            <h2 class="text-3xl font-bold text-center text-blue-900 mb-8">Register Akun</h2>
 
-            <div>
-                <label class="text-white">Name</label>
-                <input type="text" name="name"
-                       class="w-full mt-1 p-3 rounded-lg bg-white/20 text-white placeholder-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-300"
-                       placeholder="Nama lengkap" required>
-            </div>
+            <form action="/register" method="POST" class="space-y-4">
+                @csrf
 
-            <div>
-                <label class="text-white">Email</label>
-                <input type="email" name="email"
-                       class="w-full mt-1 p-3 rounded-lg bg-white/20 text-white placeholder-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-300"
-                       placeholder="example@mail.com" required>
-            </div>
+                <!-- Removed labels and updated input styling to gray background with darker text -->
+                <div>
+                    <input type="text" name="name"
+                           class="w-full p-3 rounded-lg bg-gray-300 text-gray-700 placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                           placeholder="Username" required>
+                </div>
 
-            <div>
-                <label class="text-white">Password</label>
-                <input type="password" name="password"
-                       class="w-full mt-1 p-3 rounded-lg bg-white/20 text-white placeholder-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-300"
-                       placeholder="••••••••" required>
-            </div>
+                <div>
+                    <input type="password" name="password"
+                           class="w-full p-3 rounded-lg bg-gray-300 text-gray-700 placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                           placeholder="Password" required>
+                </div>
 
-            <div>
-                <label class="text-white">Konfirmasi Password</label>
-                <input type="password" name="password_confirmation"
-                       class="w-full mt-1 p-3 rounded-lg bg-white/20 text-white placeholder-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-300"
-                       placeholder="••••••••" required>
-            </div>
+                <div>
+                    <input type="email" name="email"
+                           class="w-full p-3 rounded-lg bg-gray-300 text-gray-700 placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                           placeholder="Email" required>
+                </div>
 
-            <button
-                class="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 rounded-lg transition">
-                Daftar
-            </button>
+                <!-- Changed button from green to dark navy blue -->
+                <button type="submit"
+                    class="w-full bg-blue-900 hover:bg-blue-800 text-white font-semibold py-3 rounded-lg transition mt-6">
+                    Register
+                </button>
 
-            <p class="text-center text-white mt-4">
-                Sudah punya akun?
-                <a href="/login" class="text-yellow-300 hover:underline">Login</a>
-            </p>
-        </form>
+                <!-- Updated link styling to blue instead of yellow -->
+                <p class="text-center text-gray-700 mt-4 text-sm">
+                    Sudah punya akun?
+                    <a href="/login" class="text-blue-600 hover:underline font-semibold">Login</a>
+                </p>
+            </form>
+        </div>
     </div>
 
 </body>
