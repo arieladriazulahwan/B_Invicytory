@@ -3,98 +3,93 @@
 @section('title', 'Data Pesanan')
 
 @section('content')
-<div class="flex justify-between mb-6">
-    <h2 class="text-3xl font-bold">Data Pesanan</h2>
+<div class="flex justify-between items-center mb-6">
+    <h2 class="text-3xl font-bold text-gray-800">Pemesanan</h2>
     <a href="{{ route('orders.create') }}" 
-       class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg shadow">
-        + Pesanan Baru
+       class="bg-blue-900 hover:bg-blue-950 text-white px-5 py-2 rounded-lg shadow">
+        + Tambah Pesanan
     </a>
 </div>
 
-<div class="bg-white shadow rounded-lg overflow-hidden">
-    <table class="min-w-full border">
-        <thead class="bg-gray-100 text-gray-700">
+<div class="bg-white shadow rounded-lg overflow-hidden border border-gray-200">
+    <table class="min-w-full">
+        <!-- Updated table header to navy blue with white text -->
+        <thead class="bg-blue-900 text-white">
             <tr>
-                <th class="border px-4 py-2 text-left">Tanggal Pesanan</th>
-                <th class="border px-4 py-2 text-left">Produk</th>
-                <th class="border px-4 py-2 text-center">Jumlah</th>
-                <th class="border px-4 py-2 text-right">Harga / Item (Rp)</th>
-                <th class="border px-4 py-2 text-right">Subtotal (Rp)</th>
-                <th class="border px-4 py-2 text-center">Aksi</th>
+                <th class="border border-gray-300 px-4 py-3 text-left font-semibold">No</th>
+                <th class="border border-gray-300 px-4 py-3 text-left font-semibold">Nama Barang</th>
+                <th class="border border-gray-300 px-4 py-3 text-center font-semibold">Jumlah</th>
+                <th class="border border-gray-300 px-4 py-3 text-right font-semibold">Harga / Item (Rp)</th>
+                <th class="border border-gray-300 px-4 py-3 text-right font-semibold">Subtotal (Rp)</th>
+                <th class="border border-gray-300 px-4 py-3 text-center font-semibold">Tindakan</th>
+                <th class="border border-gray-300 px-4 py-3 text-center font-semibold">Total</th>
             </tr>
         </thead>
 
         <tbody>
             @forelse ($orders as $order)
-                @php $grandTotal = 0; @endphp
+                @php $grandTotal = 0; $rowIndex = 1; @endphp
 
                 @foreach ($order->products as $product)
                     @php 
                         $qty = $product->pivot->quantity ?? 1;
                         $totalPrice = $product->pivot->price ?? 0;
-
-                        // Harga per item = total harga / jumlah
                         $pricePerItem = $totalPrice / max($qty, 1);
-
-                        // Subtotal
                         $subtotal = $pricePerItem * $qty;
                         $grandTotal += $subtotal;
                     @endphp
 
-                    <tr class="hover:bg-gray-50 transition">
-                        {{-- Tanggal hanya ditampilkan sekali --}}
+                    <tr class="hover:bg-gray-50 transition border-b border-gray-200">
+                        <!-- Added No column and updated rowspan for consistency -->
                         @if ($loop->first)
-                            <td class="border px-4 py-2 font-semibold text-gray-800" 
-                                rowspan="{{ $order->products->count() }}">
-                                {{ $order->order_date }}
+                            <td class="border border-gray-300 px-4 py-2 font-semibold text-gray-800 text-center" 
+                                rowspan="{{ $order->products->count() + 1 }}">
+                                {{ $loop->parent->index + 1 }}
                             </td>
                         @endif
 
-                        <td class="border px-4 py-2">{{ $product->name }}</td>
+                        <td class="border border-gray-300 px-4 py-2 text-gray-800">{{ $product->name }}</td>
 
-                        <td class="border px-4 py-2 text-center">{{ $qty }}</td>
+                        <td class="border border-gray-300 px-4 py-2 text-center text-gray-800">{{ $qty }}</td>
 
-                        <td class="border px-4 py-2 text-right">
+                        <td class="border border-gray-300 px-4 py-2 text-right text-gray-800">
                             {{ number_format($pricePerItem, 0, ',', '.') }}
                         </td>
 
-                        <td class="border px-4 py-2 text-right">
+                        <td class="border border-gray-300 px-4 py-2 text-right text-gray-800">
                             {{ number_format($subtotal, 0, ',', '.') }}
                         </td>
 
-                        {{-- Tombol Edit & Hapus hanya sekali --}}
+                        <!-- Updated Edit/Delete buttons to cyan and red text links -->
                         @if ($loop->first)
-                            <td class="border px-4 py-2 text-center" 
-                                rowspan="{{ $order->products->count() }}">
-                                <div class="flex justify-center space-x-2">
-
+                            <td class="border border-gray-300 px-4 py-2 text-center" 
+                                rowspan="{{ $order->products->count() + 1 }}">
+                                <div class="flex justify-center space-x-3">
                                     <a href="{{ route('orders.edit', $order->id) }}"
-                                       class="bg-yellow-400 hover:bg-yellow-500 text-white px-3 py-1 rounded shadow">
+                                       class="text-cyan-500 hover:text-cyan-700 font-medium">
                                         Edit
                                     </a>
-
                                     <form action="{{ route('orders.destroy', $order->id) }}" method="POST"
-                                          onsubmit="return confirm('Yakin ingin menghapus pesanan ini?')">
+                                          onsubmit="return confirm('Yakin ingin menghapus pesanan ini?')" class="inline">
                                         @csrf @method('DELETE')
                                         <button type="submit" 
-                                                class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded shadow">
+                                                class="text-red-600 hover:text-red-800 font-medium cursor-pointer bg-none border-none p-0">
                                             Hapus
                                         </button>
                                     </form>
-
                                 </div>
                             </td>
                         @endif
                     </tr>
                 @endforeach
 
-                {{-- TOTAL PER ORDER --}}
-                <tr class="bg-gray-100 font-semibold">
-                    <td colspan="4" class="border px-4 py-2 text-right">Total Pesanan</td>
-                    <td class="border px-4 py-2 text-right">
+                <!-- Updated total row styling with navy blue background -->
+                <tr class="bg-blue-50 font-semibold border-b border-gray-300">
+                    <td colspan="4" class="border border-gray-300 px-4 py-2 text-right text-gray-800">Total Pesanan</td>
+                    <td class="border border-gray-300 px-4 py-2 text-right text-gray-800">
                         {{ number_format($grandTotal, 0, ',', '.') }}
                     </td>
-                    <td class="border"></td>
+                    <td class="border border-gray-300"></td>
                 </tr>
 
             @empty

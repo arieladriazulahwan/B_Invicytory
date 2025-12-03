@@ -11,21 +11,22 @@
     <div class="flex min-h-screen">
 
         <!-- SIDEBAR -->
-        <aside class="w-64 bg-white shadow-md">
-            <div class="p-6 text-2xl font-bold text-blue-600">
+        <!-- Changed sidebar from white to navy blue with white text -->
+        <aside class="w-64 bg-blue-900 shadow-md">
+            <div class="p-6 text-2xl font-bold text-white">
                 {{ $settings->warehouse_name ?? 'Invicytory' }}
             </div>
 
             <nav class="mt-4 space-y-2">
-                <a href="/dashboard" class="block px-6 py-2 text-gray-700 hover:bg-blue-100">Dashboard</a>
-                <a href="/items" class="block px-6 py-2 text-gray-700 hover:bg-blue-100">Data Barang</a>
-                <a href="/incoming" class="block px-6 py-2 text-gray-700 hover:bg-blue-100">Barang Masuk</a>
-                <a href="/outgoing" class="block px-6 py-2 text-gray-700 hover:bg-blue-100">Barang Keluar</a>
-                <a href="/categories" class="block px-6 py-2 text-gray-700 hover:bg-blue-100">Kategori</a>
-                <a href="/products" class="block px-6 py-2 text-gray-700 hover:bg-blue-100">Produk</a>
-                <a href="/orders" class="block px-6 py-2 text-gray-700 hover:bg-blue-100">Pesanan</a>
-                <a href="/reports" class="block px-6 py-2 text-gray-700 hover:bg-blue-100">Laporan</a>
-                <a href="/settings" class="block px-6 py-2 text-gray-700 hover:bg-blue-100">Pengaturan</a>
+                <a href="/dashboard" class="block px-6 py-2 text-blue-100 hover:bg-blue-800 transition">Dashboard</a>
+                <a href="/items" class="block px-6 py-2 text-blue-100 hover:bg-blue-800 transition">Data Barang</a>
+                <a href="/incoming" class="block px-6 py-2 text-blue-100 hover:bg-blue-800 transition">Barang Masuk</a>
+                <a href="/outgoing" class="block px-6 py-2 text-blue-100 hover:bg-blue-800 transition">Barang Keluar</a>
+                <a href="/categories" class="block px-6 py-2 text-blue-100 hover:bg-blue-800 transition">Kategori</a>
+                <a href="/products" class="block px-6 py-2 text-blue-100 hover:bg-blue-800 transition">Produk</a>
+                <a href="/orders" class="block px-6 py-2 text-blue-100 hover:bg-blue-800 transition">Pesanan</a>
+                <a href="/reports" class="block px-6 py-2 text-blue-100 hover:bg-blue-800 transition">Laporan</a>
+                <a href="/settings" class="block px-6 py-2 text-blue-100 hover:bg-blue-800 transition">Pengaturan</a>
             </nav>
         </aside>
 
@@ -34,7 +35,8 @@
         <div class="flex-1 flex flex-col">
 
             <!-- HEADER -->
-            <header class="bg-white shadow p-4 flex justify-between items-center">
+            <!-- Updated header styling with light gray background -->
+            <header class="bg-gray-200 shadow p-4 flex justify-between items-center">
                 
                 <h1 class="text-xl font-semibold text-gray-800">
                     @yield('title', 'Dashboard Gudang')
@@ -56,10 +58,11 @@
                     </span>
 
                     <!-- LOGOUT -->
+                    <!-- Changed logout button to navy blue theme -->
                     <form action="{{ route('logout') }}" method="POST">
                         @csrf
                         <button 
-                            class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg shadow">
+                            class="bg-blue-900 hover:bg-blue-800 text-white px-4 py-2 rounded-lg shadow transition">
                             Logout
                         </button>
                     </form>
