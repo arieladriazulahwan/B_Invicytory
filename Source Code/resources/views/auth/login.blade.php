@@ -49,6 +49,7 @@
             <p class="text-center text-blue-200 mt-4 text-sm">
                 <a href="/register" class="hover:underline">Register here</a>
             </p>
+
         </form>
     </div>
 </body>

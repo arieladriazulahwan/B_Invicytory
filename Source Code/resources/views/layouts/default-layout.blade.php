@@ -3,6 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>{{ $settings->warehouse_name ?? 'Invicytory' }}</title>
+    <!-- Favicon -->
+    @if ($settings && $settings->warehouse_logo)
+        <link rel="icon" type="image/png" href="{{ asset('storage/logo/' . $settings->warehouse_logo) }}">
+    @else
+        <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}">
+    @endif
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
@@ -13,10 +19,18 @@
         <!-- SIDEBAR -->
         <!-- Changed sidebar from white to navy blue with white text -->
         <aside class="w-64 bg-blue-900 shadow-md">
-            <div class="p-6 text-2xl font-bold text-white">
+        <div class="p-6 flex items-center space-x-3">
+        <!-- NAMA GUDANG -->
+            <span class="text-2xl font-bold text-white">
                 {{ $settings->warehouse_name ?? 'Invicytory' }}
-            </div>
+            </span>
+        <!-- LOGO GUDANG -->
+        @if ($settings && $settings->warehouse_logo)
+            <img src="{{ asset('storage/logo/' . $settings->warehouse_logo) }}"
+            class="w-10 h-10 rounded-full object-cover border border-white shadow">
+        @endif
 
+            </div>
             <nav class="mt-4 space-y-2">
                 <a href="/dashboard" class="block px-6 py-2 text-blue-100 hover:bg-blue-800 transition">Dashboard</a>
                 <a href="/items" class="block px-6 py-2 text-blue-100 hover:bg-blue-800 transition">Data Barang</a>
@@ -45,12 +59,11 @@
                 <div class="flex items-center gap-4">
 
                     <!-- FOTO PROFIL -->
-                    <img 
-                        src="{{ auth()->user()->profile_photo 
-                            ? asset('storage/' . auth()->user()->profile_photo) 
-                            : 'https://ui-avatars.com/api/?name=' . urlencode(auth()->user()->name) }}"
-                        class="w-10 h-10 rounded-full object-cover shadow"
-                        alt="Foto Profil">
+                   
+                @if (auth()->user()->profile_photo)
+                    <img src="{{ asset('storage/profile/' . auth()->user()->profile_photo) }}"
+                        class="w-10 h-10 rounded-full mt-2 object-cover border">
+                @endif
 
                     <!-- USERNAME -->
                     <span class="font-semibold text-gray-700">
