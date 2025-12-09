@@ -50,7 +50,7 @@
 
             <div>
                 <label class="font-medium block mb-1">Foto Profil</label>
-                <input type="file" name="profile_photo" class="w-full border border-gray-300 p-2 rounded text-blue-900" accept="image/*">
+                <input type="file" name="profile_photo" class="w-full border border-gray-300 p-2 rounded text-black-900" accept="image/*">
 
                 {{-- Preview --}}
                 @if (auth()->user()->profile_photo)
@@ -131,7 +131,7 @@
             <div class="col-span-3">
                 <label class="font-medium block mb-1">Logo Gudang</label>
                 <input type="file" name="warehouse_logo" accept="image/*"
-                    class="w-full border border-gray-300 p-2 rounded text-blue-900">
+                    class="w-full border border-gray-300 p-2 rounded text-black-900">
 
                 @if ($setting && $setting->warehouse_logo)
                     <img src="{{ asset('storage/logo/' . $setting->warehouse_logo) }}"
